@@ -53,7 +53,7 @@ def addAlignParser(subparsers):
                         genome files')
 
     # Read Params
-    parser.add_argument('--readFilesIn', required=True, nargs="+",
+    parser.add_argument('--readFilesIn', required=True, nargs='+',
                         help='name(s) (with path) of the files \
                         containing the sequences to be mapped (e.g. \
                         RNA-seq FASTQ files). If using Illumina \
@@ -68,8 +68,8 @@ def addAlignParser(subparsers):
     parser.add_argument('--readMapNumber', type=int, default=-1,
                         help='number of reads to map from the \
                         beginning of the file. -1: map all reads')
-    parser.add_argument('--readMatesLengthsIn', default="NotEqual",
-                        choices=["Equal", "NotEqual"],
+    parser.add_argument('--readMatesLengthsIn', default='NotEqual',
+                        choices=['Equal', 'NotEqual'],
                         help='lengths of names,sequences, qualities \
                         for both mates are the same / not the same. \
                         NotEqual is safe in all situations.')
@@ -133,9 +133,9 @@ def addAlignParser(subparsers):
                         as temporary by STAR. All contents of this \
                         directory will be removed!')
     parser.add_argument('--outStd', default='Log',
-                        choices=["Log", "SAM", "BAM_Unsorted",
-                                 "BAM_SortedByCoordinate",
-                                 "BAM_Quant"],
+                        choices=['Log', 'SAM', 'BAM_Unsorted',
+                                 'BAM_SortedByCoordinate',
+                                 'BAM_Quant'],
                         help='which output will be directed to stdout')
     parser.add_argument('--outReadsUnmapped', default='None',
                         choices=['None', 'Fastx'],
@@ -153,6 +153,7 @@ def addAlignParser(subparsers):
                         choices=['None', 'Full', 'NoQS'],
                         help='mode of SAM output')
     parser.add_argument('--outSAMstrandField', default='None',
+                        choices=['None', 'intronMotif'],
                         help='cufflinks-like strand field flag')
     parser.add_argument('--outSAMattributes', default='Standard',
                         choices=['NH', 'Standard', 'All', 'None'],
@@ -169,7 +170,7 @@ def addAlignParser(subparsers):
 
     # BAM processing
     parser.add_argument('--bamRemoveDuplicatesType', default='-',
-                        choices=["-", "UniqueIdentical"],
+                        choices=['-', 'UniqueIdentical'],
                         help='if ="UniqueIdentical", mark duplicates \
                         in the BAM file, for now only works with \
                         sorted BAM feeded with inputBAMfile')
@@ -395,8 +396,8 @@ def addAlignParser(subparsers):
                         on each side of the junctions, \
                         ideally = (mate length - 1). \
                         If =0, splice junction database is not used')
-    parser.add_argument('--sjdbInsertSave', default="Basic",
-                        choices=["Basic", "All"],
+    parser.add_argument('--sjdbInsertSave', default='Basic',
+                        choices=['Basic', 'All'],
                         help='which files to save when sjdb junctions \
                         are inserted on the fly at the mapping step')
 
@@ -460,7 +461,7 @@ def addGenomeGenerateParser(subparsers):
     # Splice junction database
     parser.add_argument('--sjdbGTFfile',
                         help='path to GTF file with annotations')
-    parser.add_argument('--sjdbGTFchrPrefix', default="-",
+    parser.add_argument('--sjdbGTFchrPrefix', default='-',
                         help='prefix for chromosome names in a GTF \
                         file (e.g. ’chr’ for using ENSMEBL \
                         annotations with UCSC geneomes)')
@@ -477,7 +478,7 @@ def addGenomeGenerateParser(subparsers):
                         help='tag name to be used as exons’ \
                         gene-parents (Default ”gene id” works \
                         formatGTF files)')
-    parser.add_argument('--sjdbFileChrStartEnd', default="-",
+    parser.add_argument('--sjdbFileChrStartEnd', default='-',
                         help='path to annotations formatted as a list \
                         of splice junctions coordinates in a text \
                         file')
@@ -494,11 +495,11 @@ def buildSTARcmd(args):
     for flag, arg, in vars(args).items():
         if arg is not None:
             if not isinstance(arg, (list, tuple)):
-                formattedCmd += " --{0} {1}".format(flag, arg)
+                formattedCmd += ' --{0} {1}'.format(flag, arg)
             else:
-                formattedCmd += " --{0}".format(flag)
+                formattedCmd += ' --{0}'.format(flag)
                 for item in arg:
-                    formattedCmd += " {0}".format(item)
+                    formattedCmd += ' {0}'.format(item)
     return formattedCmd
 
 

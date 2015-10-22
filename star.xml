@@ -13,18 +13,19 @@
     ##
     
     #if $refGenomeSource.genomeSource == "history":
-    stary.py genomeGenerate
+    star.py genomeGenerate
     --limitGenomeGenerateRAM 31000000000
     --runThreadN 8
-    --genomeDir 'genome'
-    --genomeFastafiles $refGenomeSource.genomeFasta
+    --genomeDir './'
+    --genomeFastaFiles $refGenomeSource.genomeFasta
     --sjdbGTFfile $refGenomeSource.gtfFile
     --sjdbGTFchrPrefix $refGenomeSource.chrPrefix
     --sjdbGTFfeatureExon $refGenomeSource.featureExon
     --sjdbGTFtagExonParentTranscript $refGenomeSource.tagExonParentTranscript
     --sjdbGTFtagExonParentGene $refGenomeSource.tagExonParentGene
     --sjdbOverhang $refGenomeSource.sjOverhang
-    #set index_path = 'genome'
+    ;
+    #set index_path = './'
     #else:
     #set index_path = $refGenomeSource.index.fields.path
     #end if
@@ -59,6 +60,14 @@
     
     #if $markDup_cond.markDup:
     --bamRemoveDuplicatesType "UniqueIdentical"
+    #end if
+
+    #if $stranded_cond.stranded:
+    --outSAMstrandField "None"
+    --outFilterIntronMotifs "None"
+    #else:
+    --outSAMstrandField "intronMotif"
+    --outFilterIntronMotifs "RemoveNoncanonicalUnannotated"
     #end if
     
     #if $chimeric.detectChimeric:
@@ -138,6 +147,11 @@
     <!-- mark dups -->
     <conditional name="markDup_cond">
       <param name="markDup" type="boolean" checked="True" label="Mark duplicates?" />
+    </conditional>
+
+    <!-- stranded -->
+    <conditional name="stranded_cond">
+      <param name="stranded" type="boolean" checked="True" label="Were these reads generated from a strand-sepecific protocol?" />
     </conditional>
     
     <!-- chimeric detecction -->
