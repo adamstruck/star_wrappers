@@ -15,7 +15,7 @@
     #if $refGenomeSource.genomeSource == "history":
     star.py genomeGenerate
     --limitGenomeGenerateRAM 31000000000
-    --runThreadN 8
+    --runThreadN \${GALAXY_SLOTS:-4}
     --genomeDir './'
     --genomeFastaFiles $refGenomeSource.genomeFasta
     --sjdbGTFfile $refGenomeSource.gtfFile
@@ -39,7 +39,7 @@
     ## Defaults (partial list)
     --quantMode "GeneCounts"
     --genomeLoad "NoSharedMemory"
-    --runThreadN 8
+    --runThreadN \${GALAXY_SLOTS:-4}
     --outSAMtype "BAM SortedByCoordinate"
     --twopassMode "Basic"
     --outFileNamePrefix "./"
